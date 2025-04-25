@@ -5,10 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
+permissions: read-all
+permissions: write-all
+
 
 concurrency:
   group: "pages"
