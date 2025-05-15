@@ -6,14 +6,6 @@ use iced::{
 };
 use mspr_bloc2_iced::service::get_qrcode;
 
-#[derive(Debug, Clone)]
-enum AuthMessage {
-    ToggleScreen,
-    EmailChanged(String),
-    PasswordChanged(String),
-    Submit,
-}
-
 #[derive(Debug, Clone, PartialEq, Eq)]
 enum Message {
     Login,
@@ -65,11 +57,8 @@ impl AuthApp {
             Message::ApiCallLogin => {
                 let qrcode_bytes = get_qrcode(self.email.clone()).await;
                 self.qrcode = Some(qrcode_bytes);
-                println!("Api call login !")
             }
-            Message::ApiCallRegister => {
-                println!("Api call Register")
-            }
+            Message::ApiCallRegister => {}
         }
     }
     fn view(&self) -> Element<Message> {
@@ -122,9 +111,7 @@ impl AuthApp {
                 Message::ApiCallRegister
             })
         ];
-        if self.qrcode.is_some() {
-            println!("qrcode chargé !")
-        }
+        if self.qrcode.is_some() {}
         column = column.push_maybe(
             self.qrcode
                 .clone()
