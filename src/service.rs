@@ -1,16 +1,12 @@
-use reqwest::Client;
+use reqwest::{Client, Response};
 
-pub async fn get_qrcode(data: String) -> Vec<u8> {
+pub async fn get_qrcode(data: String) -> Response {
     let client = Client::new();
-    let response = client
-        .post("http://172.16.150.30:8080/function/qrcode-go")
-        .header("content-type", "image/png")
+    client
+        .post("http://172.16.150.30:8080/function/pg-list-user")
+        .header("content-type", "application/octet-stream")
         .body(data)
         .send()
         .await
         .unwrap()
-        .bytes()
-        .await
-        .unwrap();
-    response.into()
 }

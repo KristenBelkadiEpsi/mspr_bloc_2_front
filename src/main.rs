@@ -5,6 +5,7 @@ use iced::{
     },
 };
 use mspr_bloc2_iced::service::get_qrcode;
+use reqwest::StatusCode;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 enum Message {
@@ -55,10 +56,19 @@ impl AuthApp {
                 self.confirmation_password = new_value;
             }
             Message::ApiCallLogin => {
-                let qrcode_bytes = get_qrcode(self.email.clone()).await;
-                self.qrcode = Some(qrcode_bytes);
+                // let qrcode_bytes = get_qrcode(self.email.clone()).await;
+                // self.qrcode = Some(qrcode_bytes);
             }
-            Message::ApiCallRegister => {}
+            Message::ApiCallRegister => {
+                let response = get_qrcode(self.email.clone()).await;
+                match response.status() {
+                    StatusCode::OK => {
+                        let bytes: Vec<u8> = response.bytes().await.unwrap().into();
+                        self.qrcode = Some(bytes);
+                    }
+                    _ => eprintln!("erreur lors de l'inscription !"),
+                }
+            }
         }
     }
     fn view(&self) -> Element<Message> {
@@ -76,21 +86,20 @@ impl AuthApp {
                         .on_input(|new_value| Message::PasswordChanged(new_value)),
                 );
         } else {
-            column = column
-                .push(
-                    text_input("addresse email", &self.email)
-                        .on_input(|new_value| Message::EmailChanged(new_value)),
-                )
-                .push(
-                    text_input("mot de passe", &self.password)
-                        .secure(true)
-                        .on_input(|new_value| Message::PasswordChanged(new_value)),
-                )
-                .push(
-                    text_input("répeter votre mot de passe", &self.confirmation_password)
-                        .secure(true)
-                        .on_input(|new_value| Message::ConfirmationPasswordChanged(new_value)),
-                )
+            column = column.push(
+                text_input("addresse email", &self.email)
+                    .on_input(|new_value| Message::EmailChanged(new_value)),
+            )
+            // .push(
+            //     text_input("mot de passe", &self.password)
+            //         .secure(true)
+            //         .on_input(|new_value| Message::PasswordChanged(new_value)),
+            // )
+            // .push(
+            //     text_input("répeter votre mot de passe", &self.confirmation_password)
+            //         .secure(true)
+            //         .on_input(|new_value| Message::ConfirmationPasswordChanged(new_value)),
+            // )
         }
 
         let row = row![
