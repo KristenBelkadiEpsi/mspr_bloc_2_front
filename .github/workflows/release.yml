@@ -13,26 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Rust
-        uses: actions/setup-rust@v1
-        with:
-          rust-version: stable
-
       - name: Build project
         run: cargo build --release
 
-      - name: Create release archive
-        run: |
-          mkdir -p release
-          cp target/release/mspr_bloc2_iced release/
-          cd release
-          tar -czf ../${{ github.repository }}-${{ github.sha }}.tar.gz *
-
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: release-${{ github.sha }}
           name: Release ${{ github.sha }}
-          files: ${{ github.repository }}-${{ github.sha }}.tar.gz
+          files: ${{ github.repository }}-${{ github.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
