@@ -1,0 +1,37 @@
+name: release
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build and Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Rust
+        uses: actions/setup-rust@v1
+        with:
+          rust-version: stable
+
+      - name: Build project
+        run: cargo build --release
+
+      - name: Create release archive
+        run: |
+          mkdir -p release
+          cp target/release/mspr_bloc2_iced release/
+          cd release
+          tar -czf ../${{ github.repository }}-${{ github.sha }}.tar.gz *
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: release-${{ github.sha }}
+          name: Release ${{ github.sha }}
+          files: ${{ github.repository }}-${{ github.sha }}.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
