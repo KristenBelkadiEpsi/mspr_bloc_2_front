@@ -4,7 +4,7 @@ use iced::{
         Container, Image, button, center, column, horizontal_space, image::Handle, row, text_input,
     },
 };
-use mspr_bloc2_iced::service::get_qrcode;
+use mspr_bloc2_front::service::get_qrcode;
 use reqwest::StatusCode;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
