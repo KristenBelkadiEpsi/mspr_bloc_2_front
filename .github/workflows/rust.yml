@@ -20,5 +20,6 @@ jobs:
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
           tag: ${{ github.ref_name }}
-        run: gh release create "/target/release/$github.event.repository.name"
+        run: gh release create "/target/release/$REPOSITORY_NAME"
