@@ -21,6 +21,6 @@ jobs:
         with:
           tag_name: release-${{ github.sha }}
           name: Release ${{ github.sha }}
-          files: target/release/${{ github.repository.name }}
+          files: target/release/${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
