@@ -41,6 +41,19 @@ jobs:
       - name: Run tests
         run: cargo test --verbose
 
+      - name: Upload artifact (Linux & macOS)
+        if: runner.os != 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APP_NAME }}-${{ runner.os }}
+          path: target/release/${{ env.APP_NAME }}
+
+      - name: Upload artifact (Windows)
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APP_NAME }}-${{ runner.os }}
+          path: target/release/${{ env.APP_NAME }}.exe
       # - name: Check formatting
       #   run: cargo fmt -- --check
 
