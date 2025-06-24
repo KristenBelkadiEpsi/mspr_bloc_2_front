@@ -6,7 +6,7 @@ use iced::{
 };
 use mspr_bloc2_front::service::get_qrcode;
 use reqwest::StatusCode;
-
+#[allow(dead_code)]
 #[derive(Debug, Clone, PartialEq, Eq)]
 enum Message {
     Login,
