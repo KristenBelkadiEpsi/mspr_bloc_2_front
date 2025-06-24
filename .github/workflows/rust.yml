@@ -79,8 +79,9 @@ jobs:
 
       - name: Create Release and Upload Assets
         uses: softprops/action-gh-release@v2.3.2
+        if: github.ref_type == 'tag'
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CUSTOM_TOKEN }}
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           generate_release_notes: true
