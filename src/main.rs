@@ -86,20 +86,21 @@ impl AuthApp {
                         .on_input(|new_value| Message::PasswordChanged(new_value)),
                 );
         } else {
-            column = column.push(
-                text_input("addresse email", &self.email)
-                    .on_input(|new_value| Message::EmailChanged(new_value)),
-            )
-            // .push(
-            //     text_input("mot de passe", &self.password)
-            //         .secure(true)
-            //         .on_input(|new_value| Message::PasswordChanged(new_value)),
-            // )
-            // .push(
-            //     text_input("répeter votre mot de passe", &self.confirmation_password)
-            //         .secure(true)
-            //         .on_input(|new_value| Message::ConfirmationPasswordChanged(new_value)),
-            // )
+            column = column
+                .push(
+                    text_input("addresse email", &self.email)
+                        .on_input(|new_value| Message::EmailChanged(new_value)),
+                )
+                .push(
+                    text_input("mot de passe", &self.password)
+                        .secure(true)
+                        .on_input(|new_value| Message::PasswordChanged(new_value)),
+                )
+                .push(
+                    text_input("répeter votre mot de passe", &self.confirmation_password)
+                        .secure(true)
+                        .on_input(|new_value| Message::ConfirmationPasswordChanged(new_value)),
+                )
         }
 
         let row = row![
