@@ -102,7 +102,6 @@ impl AuthApp {
                         .on_input(|new_value| Message::ConfirmationPasswordChanged(new_value)),
                 )
         }
-
         let row = row![
             button("inscription/connexion").on_press(if self.is_logging {
                 Message::Register
